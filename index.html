@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artur & Viktoriia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: #f5f5f5;
+}
+
+/* фото без отступов /
+img {
+    width: 100%;
+    display: block;
+}
+
+/ кнопка play /
+.play {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+/ таймер /
+.timer {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+}
+
+/ блок /
+.section {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/ форма /
+input, select {
+    width: 80%;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 12px 30px;
+    border-radius: 20px;
+    border: none;
+    background: #2f4f73;
+    color: white;
+}
+
+/ кнопка группы /
+.group {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: #2f4f73;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- музыка -->
+<audio id="music">
+<source src="Два незнакомца – LuiZa.mp3" type="audio/mpeg">
+</audio>
+
+<!-- первая фотка -->
+<div style="position:relative;">
+<img src="Увімкни для атмосфери - 1.png">
+<div class="play" onclick="playMusic()">▶</div>
+</div>
+
+<!-- остальные -->
+<img src="Увімкни для атмосфери - 2.png">
+<img src="Увімкни для атмосфери - 3.png">
+
+<!-- руки + таймер -->
+<div style="position:relative;">
+<img src="Увімкни для атмосфери - 4.png">
+<div class="timer" id="timer"></div>
+</div>
+
+<!-- анкета -->
+<div class="section">
+<h2 style="font-family:'Great Vibes';">Анкета гостя</h2>
+
+<form onsubmit="send(event)">
+<input id="name" type="text" placeholder="Ім'я" required>
+<input id="email" type="email" placeholder="Email" required>
+
+<select id="status">
+<option>Чи будете?</option>
+<option>Так</option>
+<option>Ні</option>
+</select>
+
+<input id="count" type="number" placeholder="Скільки вас">
+
+<button type="submit">Відправити</button>
+</form>
+</div>
+
+<!-- группа -->
+<div class="section">
+<h2 style="font-family:'Great Vibes';">Загальна група</h2>
+
+<a class="group" href="https://t.me/+s59jP9LBAQQzNmE6">
+Перейти в Telegram
+</a>
+</div>
+
+<script>
+
+/ музыка /
+function playMusic(){
+let m = document.getElementById("music");
+m.currentTime = 11;
+m.play();
+}
+
+/ таймер /
+let date = new Date("May 23, 2026 11:00:00").getTime();
+
+setInterval(()=>{
+let now = new Date().getTime();
+let diff = date - now;
+
+let d = Math.floor(diff / (1000606024));
+let h = Math.floor((diff / (10006060)) % 24);
+let m = Math.floor((diff / (100060)) % 60);
+
+document.getElementById("timer").innerHTML = d + " : " + h + " : " + m;
+},1000);
+
+/ отправка /
+function send(e){
+e.preventDefault();
+
+let name = document.getElementById("name").value;
+let email = document.getElementById("email").value;
+let status = document.getElementById("status").value;
+let count = document.getElementById("count").value;
+
+/ ВСТАВЬ СВОЙ НОВЫЙ ТОКЕН СЮДА */
+let token = "ТУТ_ТОКЕН";
+
+let chat = "1808023543";
+
+let text = "💍 Новий гість:\n" +
+"Ім'я: " + name + "\n" +
+"Email: " + email + "\n" +
+"Буде: " + status + "\n" +
+"Кількість: " + count;
+
+fetch("https://api.telegram.org/bot"+token+"/sendMessage",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+chat_id:chat,
+text:text
+})
+});
+
+alert("Дякуємо ❤️");
+}
+</script>
+
+</body>
+</html
