@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artur & Viktoriia</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #efefef;
+      color: #111;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* стартовый экран */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+
+    #intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #introButton {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Great Vibes', cursive;
+      font-size: 88px;
+      color: #111;
+      line-height: 1;
+      padding: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    #introButton:active {
+      transform: scale(0.98);
+    }
+
+    /* сайт сначала скрыт */
+    #site {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    #site.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* плавное появление блоков */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* для будущих блоков */
+    .section {
+      position: relative;
+      width: 100%;
+    }
+
+    /* невидимая зона клика по play на первой картинке */
+    .play-hotspot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 7.5%;
+      width: 110px;
+      height: 110px;
+      z-index: 5;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    @media (max-width: 480px) {
+      #introButton {
+        font-size: 72px;
+      }
+
+      .play-hotspot {
+        width: 96px;
+        height: 96px;
+        top: 7%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- старт -->
+  <div id="intro">
+    <button id="introButton" type="button">A &amp; V</button>
+  </div>
+
+  <!-- музыка -->
+  <audio id="music" preload="auto">
+    <source src="Два незнакомца - LuizA.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- сайт -->
+  <main id="site">
+
+    <!-- 1 фото -->
+    <section class="section reveal">
+      <img src="Увімкни для атмосфери - 1.png" alt="Artur and Viktoriia invitation cover">
+      <div class="play-hotspot" id="playHotspot" aria-label="Увімкнути музику"></div>
+    </section>
+
+    <!-- 2 фото -->
+    <section class="section reveal">
+      <img src="Увімкни для атмосфери - 2.png" alt="Wedding invitation details">
+    </section>
+
+    <!-- 3 фото -->
+    <section class="section reveal">
+      <img src="Увімкни для атмосфери - 3.png" alt="Wedding photo">
+    </section>
+
+  </main>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const introButton = document.getElementById('introButton');
+    const site = document.getElementById('site');
+    const music = document.getElementById('music');
+    const playHotspot = document.getElementById('playHotspot');
+    const revealBlocks = document.querySelectorAll('.reveal');
+
+    let musicStarted = false;
+
+    function revealVisibleBlocks() {
+      revealBlocks.forEach((block) => {
+        const rect = block.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 80) {
+          block.classList.add('show');
+        }
+      });
+    }
+
+    function startExperience() {
+      intro.classList.add('hidden');
+      site.classList.add('visible');
+
+      setTimeout(() => {
+        revealVisibleBlocks();
+      }, 250);
+    }
+
+    async function startMusic() {
+      if (musicStarted) return;
+      try {
+        music.currentTime = 11;
+        await music.play();
+        musicStarted = true;
+      } catch (e) {
+        console.log('Music play blocked:', e);
+      }
+    }
+
+    introButton.addEventListener('click', async () => {
+      await startMusic();
+      startExperience();
+    });
+
+    playHotspot.addEventListener('click', async () => {
+      await startMusic();
+    });
+
+    window.addEventListener('scroll', revealVisibleBlocks);
+    window.addEventListener('load', () => {
+      revealVisibleBlocks();
+    });
+  </script>
+
+</body>
+</html>
