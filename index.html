@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Artur & Viktoriia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    background: #f3f3f3;
+    overflow-x: hidden;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* старт */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: 1.2s;
+}
+
+#intro.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#intro button {
+    font-family: 'Great Vibes';
+    font-size: 90px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* сайт */
+#site {
+    opacity: 0;
+    transition: 1s;
+}
+
+#site.show {
+    opacity: 1;
+}
+
+/* секции */
+.section {
+    width: 100%;
+}
+
+img {
+    width: 100%;
+}
+
+/* анимация */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1s;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== ТАЙМЕР ===== */
+
+.timer-wrap {
+    position: absolute;
+    width: 100%;
+    bottom: 15%;
+    text-align: center;
+}
+
+.timer-title {
+    font-family: 'Great Vibes';
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+.timer-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.t-block {
+    text-align: center;
+    width: 60px;
+}
+
+.t-num {
+    font-size: 42px;
+}
+
+.t-label {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.t-line {
+    width: 1px;
+    height: 40px;
+    background: rgba(0,0,0,0.3);
+    margin: 0 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- старт -->
+<div id="intro">
+    <button id="startBtn">A & V</button>
+</div>
+
+<audio id="music">
+    <source src="Два незнакомца - LuizA.mp3">
+</audio>
+
+<!-- сайт -->
+<div id="site">
+
+    <div class="section reveal">
+        <img src="photo1.png">
+    </div>
+
+    <div class="section reveal">
+        <img src="photo2.png">
+    </div>
+
+    <div class="section reveal">
+        <img src="photo3.png">
+    </div>
+
+    <!-- руки -->
+    <div class="section reveal" style="position: relative;">
+        <img src="IMG_7315.jpeg">
+
+        <div class="timer-wrap">
+
+            <div class="timer-title">
+                До дня, коли ми станемо сім'єю - залишилося ..."
+
+            </div>
+
+            <div class="timer-grid">
+
+                <div class="t-block">
+                    <div class="t-num" id="days">00</div>
+                    <div class="t-label">днів</div>
+                </div>
+
+                <div class="t-line"></div>
+
+                <div class="t-block">
+                    <div class="t-num" id="hours">00</div>
+                    <div class="t-label">годин</div>
+                </div>
+
+                <div class="t-line"></div>
+
+                <div class="t-block">
+                    <div class="t-num" id="minutes">00</div>
+                    <div class="t-label">хвилин</div>
+                </div>
+
+                <div class="t-line"></div>
+
+                <div class="t-block">
+                    <div class="t-num" id="seconds">00</div>
+                    <div class="t-label">секунд</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+/* старт */
+const intro = document.getElementById("intro");
+const btn = document.getElementById("startBtn");
+const site = document.getElementById("site");
+const music = document.getElementById("music");
+
+btn.onclick = () => {
+    intro.classList.add("hidden");
+    site.classList.add("show");
+
+    music.currentTime = 11;
+    music.play();
+};
+
+/* анимация */
+const blocks = document.querySelectorAll('.reveal');
+
+window.addEventListener('scroll', () => {
+    blocks.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 80) {
+            el.classList.add('show');
+        }
+    });
+});
+
+/* таймер */
+const weddingDate = new Date("May 23, 2026 11:00:00").getTime();
+
+setInterval(() => {
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("days").innerText = d;
+    document.getElementById("hours").innerText = h;
+    document.getElementById("minutes").innerText = m;
+    document.getElementById("seconds").innerText = s;
+
+}, 1000);
+
+</script>
+
+</body>
+</html>
