@@ -250,11 +250,11 @@ font-size: 20px;
 <input type="email" placeholder="Email">
 
 <select>
-<option>Чи будете?</option>
-<option>Так</option>
-<option>Ні</option>
-document.getElementById("form").addEventListener("submit", function(e) {
-e.preventDefault();
+<<select id="status">
+<option value="">Чи будете?</option>
+<option value="Так">Так</option>
+<option value="Ні">Ні</option>
+</select>
 
 let name = document.getElementById("name").value;
 let email = document.getElementById("email").value;
@@ -271,7 +271,7 @@ Email: ${email}
 `;
 
 let token = "8516218775:AAFz39TECTa2LTRbWymgGjWJ6nu5n308VXM";
-let chat_id = "Id: 1808023543";
+let chat_id = " 1808023543";
 
 fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
 method: "POST",
