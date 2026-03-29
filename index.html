@@ -184,17 +184,91 @@
     <section class="section reveal hands-section">
       <img src="IMG_7315.jpeg" alt="Hands photo">
 
-      <div class="timer-wrap">
-        <div class="timer-title">До нашого весілля залишилось</div>
-        <div class="timer-numbers" id="timer">
-          <span class="line">00</span>
-          <span class="line">00 : 00</span>
-        </div>
-      </div>
-    </section>
+      <<div class="timer-wrap">
 
+  <div class="timer-title">
+    До дня, коли ми станемо сім'єю - залишилося ..."
+  </div>
+
+  <div class="timer-grid" id="timer">
+
+    <div class="t-block">
+      <div class="t-num" id="days">00</div>
+      <div class="t-label">днів</div>
+    </div>
+
+    <div class="t-line"></div>
+
+    <div class="t-block">
+      <div class="t-num" id="hours">00</div>
+      <div class="t-label">годин</div>
+    </div>
+
+    <div class="t-line"></div>
+
+    <div class="t-block">
+      <div class="t-num" id="minutes">00</div>
+      <div class="t-label">хвилин</div>
+    </div>
+
+    <div class="t-line"></div>
+
+    <div class="t-block">
+      <div class="t-num" id="seconds">00</div>
+      <div class="t-label">секунд</div>
+    </div>
+
+  </div>
+</div>
+.timer-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.t-block {
+  text-align: center;
+  min-width: 60px;
+}
+
+.t-num {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+.t-label {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.t-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(0,0,0,0.3);
+}
   </main>
+const weddingDate = new Date("May 23, 2026 11:00:00").getTime();
 
+function updateTimer() {
+  const now = new Date().getTime();
+  let diff = weddingDate - now;
+
+  if (diff < 0) diff = 0;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("days").innerText = days;
+  document.getElementById("hours").innerText = hours;
+  document.getElementById("minutes").innerText = minutes;
+  document.getElementById("seconds").innerText = seconds;
+}
+
+updateTimer();
+setInterval(updateTimer, 1000);
   <script>
     const intro = document.getElementById('intro');
     const introButton = document.getElementById('introButton');
