@@ -343,16 +343,16 @@ document.getElementById("seconds").innerText = s;
 
 }, 1000);
 
-</script>
+<script>
 document.getElementById("form").addEventListener("submit", function(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let status = document.getElementById("status").value;
-    let count = document.getElementById("count").value;
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let status = document.getElementById("status").value;
+  let count = document.getElementById("count").value;
 
-    let message = `
+  let message = `
 💍 Нова анкета
 
 Ім'я: ${name}
@@ -361,22 +361,21 @@ Email: ${email}
 Кількість: ${count}
 `;
 
-    let token = "8516218775:AAFz39TECTa2LTRbWymgGjWJ6nu5n308VXM";  //  
-    let chat_id = "1808023543"; //  
+  let token = "8516218775:AAFz39TECTa2LTRbWymgGjWJ6nu5n308VXM";
+  let chat_id = "1808023543";
 
-    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            chat_id: chat_id,
-            text: message
-        })
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: message
     })
-    .then(() => {
-        alert("Дякуємо! 💛");
-    });
+  }).then(() => {
+    alert("Дякуємо! 💛");
+  });
 });
 </script>
 </body>
