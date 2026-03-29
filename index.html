@@ -239,61 +239,30 @@ font-size: 20px;
 <img src="dress.jpg">
 </div>
 
-<!-- анкета -->
-<div class="title">Анкета гостя</div>
+<!-- АНКЕТА -->
+<div class="section reveal">
 
-<div class="card">
+    <div class="title">Анкета гостя</div>
 
-<form id="form">
+    <div class="card">
+        <form id="form">
 
-<input type="text" placeholder="Ім'я">
-<input type="email" placeholder="Email">
+            <input id="name" type="text" placeholder="Ім'я" required>
 
-<select>
-<<select id="status">
-<option value="">Чи будете?</option>
-<option value="Так">Так</option>
-<option value="Ні">Ні</option>
-</select>
+            <input id="email" type="email" placeholder="Email" required>
 
-let name = document.getElementById("name").value;
-let email = document.getElementById("email").value;
-let status = document.getElementById("status").value;
-let count = document.getElementById("count").value;
+            <select id="status" required>
+                <option value="">Чи будете?</option>
+                <option value="Так">Так</option>
+                <option value="Ні">Ні</option>
+            </select>
 
-let message = `
-Нова анкета 💍
+            <input id="count" type="number" placeholder="Скільки вас" required>
 
-Ім'я: ${name}
-Email: ${email}
-Прийде: ${status}
-Кількість: ${count}
-`;
+            <button type="submit">Відправити</button>
 
-let token = "8516218775:AAFz39TECTa2LTRbWymgGjWJ6nu5n308VXM";
-let chat_id = " 1808023543";
-
-fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-chat_id: chat_id,
-text: message
-})
-})
-.then(() => {
-alert("Дякуємо! 💛");
-});
-});
-</select>
-
-<input type="number" placeholder="Скільки вас">
-
-<button>Відправити</button>
-
-</form>
+        </form>
+    </div>
 
 </div>
 
@@ -355,6 +324,41 @@ document.getElementById("seconds").innerText = s;
 }, 1000);
 
 </script>
+<script>
+document.getElementById("form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let status = document.getElementById("status").value;
+    let count = document.getElementById("count").value;
+
+    let message = `
+💍 Нова анкета
+
+Ім'я: ${name}
+Email: ${email}
+Прийде: ${status}
+Кількість: ${count}
+`;
+
+    let token = "8516218775:AAFz39TECTa2LT...";  // твій токен
+    let chat_id = "1808023543"; // твій ID
+
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            chat_id: chat_id,
+            text: message
+        })
+    })
+    .then(() => {
+        alert("Дякуємо! 💛");
+    });
+});
+</script>
 </body>
 </html>
