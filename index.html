@@ -9,7 +9,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
+/* Плавне появлення */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1.2s ease;
+}
 
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Легке “дихання” фото */
+img {
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
 body {
 margin: 0;
 background: #EBEBEB;
@@ -357,6 +377,17 @@ Email: ${email}
     .then(() => {
         alert("Дякуємо! 💛");
     });
+});
+
+
+const blocks = document.querySelectorAll('.reveal');
+
+window.addEventListener('scroll', () => {
+  blocks.forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+      el.classList.add('show');
+    }
+  });
 });
 </script>
 </body>
