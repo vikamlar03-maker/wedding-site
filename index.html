@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Artur & Viktoriia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    background: #f5f5f5;
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ===== СТАРТ ===== */
+#startScreen {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease;
+}
+
+#startText {
+    font-family: 'Great Vibes';
+    font-size: 80px;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* ===== БЛОК ===== */
+.section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.2s ease;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== ФОТО ===== */
+.photo {
+    width: 100%;
+    display: block;
+}
+
+/* ===== ТАЙМЕР ===== */
+.timer-block {
+    position: relative;
+}
+
+.timer {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    font-size: 26px;
+    color: black;
+    font-weight: 300;
+}
+
+/* ===== АНИМАЦИЯ ДЫХАНИЯ ===== */
+.timer {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+    100% { transform: translateY(0); }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 💫 СТАРТ -->
+<div id="startScreen">
+    <div id="startText">A & V</div>
+</div>
+
+<!-- 🎵 МУЗЫКА -->
+<audio id="music" src="Два незнакомца - LuiZA.mp3"></audio>
+
+<!-- 📸 РУКИ + ТАЙМЕР -->
+<div class="section timer-block">
+    <img src="IMG_7315.jpeg" class="photo">
+
+    <div class="timer" id="timer"></div>
+</div>
+
+<!-- 📸 ФОТО 1 -->
+<div class="section">
+    <img src="photo.jpg - 1.png" class="photo">
+</div>
+
+<!-- 📸 ФОТО 2 -->
+<div class="section">
+    <img src="photo.jpg - 2.png" class="photo">
+</div>
+
+<!-- 📸 ФОТО 3 -->
+<div class="section">
+    <img src="photo.jpg - 3.png" class="photo">
+</div>
+
+<script>
+
+/* ===== СТАРТ ===== */
+const start = document.getElementById("startScreen");
+const text = document.getElementById("startText");
+const music = document.getElementById("music");
+
+text.addEventListener("click", () => {
+
+    start.style.opacity = "0";
+
+    setTimeout(() => {
+        start.style.display = "none";
+    }, 1500);
+
+    music.currentTime = 11;
+    music.play();
+});
+
+/* ===== СКРОЛЛ ===== */
+const sections = document.querySelectorAll('.section');
+
+window.addEventListener('scroll', () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+            sec.classList.add('visible');
+        }
+    });
+});
+
+/* ===== ТАЙМЕР ===== */
+const weddingDate = new Date("May 23, 2026 11:00:00").getTime();
+
+setInterval(() => {
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+
+    document.getElementById("timer").innerHTML =
+        `${d}<br>${h}<br>${m}`;
+}, 1000);
+
+</script>
+
+</body>
+</html>
