@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artur & Viktoriia</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #f3f3f3;
+      color: #111;
+      overflow-x: hidden;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Стартовый экран */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1.3s ease, visibility 1.3s ease;
+    }
+
+    #intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #introButton {
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      color: #111;
+      font-family: 'Great Vibes', cursive;
+      font-size: 92px;
+      line-height: 1;
+      transition: transform 0.3s ease;
+    }
+
+    #introButton:active {
+      transform: scale(0.98);
+    }
+
+    /* Основной сайт */
+    #site {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    #site.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Появление блоков */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 1s ease, transform 1s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Блок с руками */
+    .hands-section {
+      position: relative;
+    }
+
+    .timer-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 14%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .timer-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 38px;
+      color: #111;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+    }
+
+    .timer-numbers {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 54px;
+      line-height: 0.95;
+      color: #111;
+      font-weight: 300;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+    }
+
+    .timer-numbers .line {
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      #introButton {
+        font-size: 76px;
+      }
+
+      .timer-title {
+        font-size: 30px;
+      }
+
+      .timer-numbers {
+        font-size: 44px;
+      }
+
+      .timer-wrap {
+        bottom: 12%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Старт -->
+  <div id="intro">
+    <button id="introButton" type="button">A &amp; V</button>
+  </div>
+
+  <!-- Музыка -->
+  <audio id="music" preload="auto">
+    <source src="Два незнакомца - LuizA.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Сайт -->
+  <main id="site">
+
+    <!-- 1 фото -->
+    <section class="section reveal">
+      <img src="photo1.png" alt="Photo 1">
+    </section>
+
+    <!-- 2 фото -->
+    <section class="section reveal">
+      <img src="photo2.png" alt="Photo 2">
+    </section>
+
+    <!-- 3 фото -->
+    <section class="section reveal">
+      <img src="photo3.png" alt="Photo 3">
+    </section>
+
+    <!-- Руки последними -->
+    <section class="section reveal hands-section">
+      <img src="IMG_7315.jpeg" alt="Hands photo">
+
+      <div class="timer-wrap">
+        <div class="timer-title">До нашого весілля залишилось</div>
+        <div class="timer-numbers" id="timer">
+          <span class="line">00</span>
+          <span class="line">00 : 00</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const introButton = document.getElementById('introButton');
+    const site = document.getElementById('site');
+    const music = document.getElementById('music');
+    const revealBlocks = document.querySelectorAll('.reveal');
+
+    let musicStarted = false;
+
+    function revealVisibleBlocks() {
+      revealBlocks.forEach((block) => {
+        const rect = block.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 80) {
+          block.classList.add('show');
+        }
+      });
+    }
+
+    async function startMusic() {
+      if (musicStarted) return;
+      try {
+        music.currentTime = 11;
+        await music.play();
+        musicStarted = true;
+      } catch (e) {
+        console.log('Music blocked:', e);
+      }
+    }
+
+    async function startExperience() {
+      await startMusic();
+      intro.classList.add('hidden');
+      site.classList.add('visible');
+
+      setTimeout(() => {
+        revealVisibleBlocks();
+      }, 250);
+    }
+
+    introButton.addEventListener('click', startExperience);
+
+    window.addEventListener('scroll', revealVisibleBlocks);
+    window.addEventListener('load', () => {
+      revealVisibleBlocks();
+    });
+
+    /* Таймер */
+    const weddingDate = new Date("May 23, 2026 11:00:00").getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      let diff = weddingDate - now;
+
+      if (diff < 0) diff = 0;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+      document.getElementById('timer').innerHTML = `
+        <span class="line">${String(days).padStart(2, '0')}</span>
+        <span class="line">${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')}</span>
+      `;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
+
+</body>
+</html>
