@@ -344,7 +344,6 @@ document.getElementById("seconds").innerText = s;
 }, 1000);
 
 <script>
- 
 document.getElementById("form").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -374,8 +373,12 @@ Email: ${email}
       chat_id: chat_id,
       text: message
     })
-  }).then(() => {
+  })
+  .then(() => {
     alert("Дякуємо! 💛");
+  })
+  .catch(() => {
+    alert("Щось пішло не так");
   });
 });
 </script>
