@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Свадьба</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Cormorant:wght@300&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #FFFCF6;
+  font-family: 'Cormorant', serif;
+  overflow-x: hidden;
+}
+
+/* ТКАНЬ */
+.fabric {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+/* ПЕРВЫЙ ЭКРАН */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 64px;
+  font-family: 'Playfair Display', serif;
+}
+
+.quote {
+  max-width: 320px;
+  font-size: 16px;
+}
+
+/* ВИДЕО */
+.video-block video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* СЕКЦИИ */
+.section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* ГАЛЕРЕЯ */
+.gallery {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 20px;
+}
+.gallery img {
+  width: 70%;
+  border-radius: 20px;
+}
+
+/* HAND + TIMER */
+.hand-block {
+  position: relative;
+  margin-top: 30px;
+}
+
+.hand-block img {
+  width: 100%;
+  display: block;
+}
+
+/* ТАЙМЕР НА ФОТО */
+.timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  gap: 18px;
+
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+}
+
+.timer div {
+  text-align: center;
+}
+
+.timer span {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ПЛАВНОСТЬ */
+.fade {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ТКАНЬ -->
+<video class="fabric" autoplay muted loop playsinline>
+  <source src="https://cdn.coverr.co/videos/coverr-white-fabric-flowing-5176/1080p.mp4" type="video/mp4">
+</video>
+
+<!-- ПЕРВЫЙ ЭКРАН -->
+<section class="hero fade">
+  <div class="logo">A | V</div>
+  <div class="quote">
+    «Так что они уже не двое, но одна плоть.<br>
+    Итак, что Бог сочетал, того человек да не разлучает»<br><br>
+    (Матфея 19:6)
+  </div>
+</section>
+
+<!-- ВИДЕО -->
+<section class="video-block">
+  <video autoplay muted loop playsinline>
+    <source src="fabric.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- МЕСТО -->
+<section class="section fade">
+  <h2>Место проведение !</h2>
+  <p>FECG Cloppenburg West<br>Christian church</p>
+  <p>Huntestraße 39, 49661 Cloppenburg</p>
+</section>
+
+<!-- ГАЛЕРЕЯ -->
+<div class="gallery">
+  <img src="P1.JPG">
+  <img src="P2.JPG">
+  <img src="P3.JPG">
+  <img src="P4.JPG">
+</div>
+
+<!-- HAND + ТАЙМЕР -->
+<div class="hand-block">
+  <img src="Hand.jpg">
+
+  <div class="timer" id="timer"></div>
+</div>
+
+<!-- МУЗЫКА -->
+<audio id="music" src="music.mp3"></audio>
+
+<script>
+
+/* МУЗЫКА С 11 СЕКУНД */
+window.addEventListener('click', () => {
+  let music = document.getElementById('music');
+  music.currentTime = 11;
+  music.play();
+}, { once: true });
+
+/* ТАЙМЕР */
+let endDate = new Date("May 23, 2026 11:00:00").getTime();
+
+setInterval(() => {
+  let now = new Date().getTime();
+  let distance = endDate - now;
+
+  let d = Math.floor(distance / (1000 * 60 * 60 * 24));
+  let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  let s = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerHTML = `
+    <div>${d}<span>дней</span></div>
+    <div>${h}<span>часов</span></div>
+    <div>${m}<span>минут</span></div>
+    <div>${s}<span>секунд</span></div>
+  `;
+}, 1000);
+
+</script>
+
+</body>
+</html>
